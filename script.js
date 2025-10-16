@@ -2,20 +2,32 @@ const gameList = document.getElementById('gameList');
 const gameFrame = document.getElementById('gameFrame');
 const fullscreenBtn = document.getElementById('fullscreenBtn');
 
-// Load game into iframe
+function focusIframe() {
+  gameFrame.focus();
+}
+
+// Load game and focus iframe on click
 gameList.addEventListener('click', function (e) {
   if (e.target && e.target.matches("li[data-game]")) {
     const gameUrl = e.target.getAttribute('data-game');
     gameFrame.src = gameUrl;
 
-    // Wait for iframe to load, then focus it
+    // Focus iframe immediately on user click (gesture)
+    focusIframe();
+
+    // Focus iframe again after iframe loads content
     gameFrame.addEventListener('load', () => {
-      gameFrame.focus();
+      focusIframe();
     }, { once: true });
   }
 });
 
-// Toggle fullscreen
+// Focus iframe when clicking inside the iframe
+gameFrame.addEventListener('click', () => {
+  focusIframe();
+});
+
+// Toggle fullscreen and focus iframe
 fullscreenBtn.addEventListener('click', () => {
   if (gameFrame.requestFullscreen) {
     gameFrame.requestFullscreen();
@@ -24,7 +36,6 @@ fullscreenBtn.addEventListener('click', () => {
   } else if (gameFrame.msRequestFullscreen) {
     gameFrame.msRequestFullscreen();
   }
-
-  // Focus iframe after fullscreen
-  gameFrame.focus();
+  
+  focusIframe();
 });
