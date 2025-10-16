@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Welcome to Game Hub</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      font-family: sans-serif;
+      background-color: #f9f9f9;
+      color: #333;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2em;
+      margin-bottom: 0.5em;
+    }
+
+    p {
+      font-size: 1.1em;
+      max-width: 400px;
+      line-height: 1.4;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to Game Hub</h1>
+  <p>If the games are white, they are probably loading. Please be patient as some games may take a few seconds to appear.</p>
+</body>
+</html>
