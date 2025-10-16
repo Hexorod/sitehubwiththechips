@@ -3,65 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Game Hub</title>
+  <title>games</title>
   <link rel="stylesheet" href="style.css" />
-  <style>
-    /* Minimal styling just in case */
-    body, html {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      font-family: sans-serif;
-    }
-    .container {
-      display: flex;
-      height: 100vh;
-    }
-    .sidebar {
-      width: 200px;
-      background-color: #f4f4f4;
-      padding: 1em;
-      box-shadow: 2px 0 5px rgba(0,0,0,0.1);
-    }
-    .sidebar h2 {
-      margin-top: 0;
-    }
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
-    .sidebar li {
-      cursor: pointer;
-      margin: 10px 0;
-      padding: 5px;
-      border-radius: 4px;
-    }
-    .sidebar li:hover {
-      background-color: #ddd;
-    }
-    .main-content {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-    }
-    .toolbar {
-      padding: 10px;
-      background-color: #eee;
-      text-align: right;
-    }
-    iframe {
-      flex: 1;
-      width: 100%;
-      border: none;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
     <aside class="sidebar">
-      <h2>Games</h2>
+      <h2>Gamas</h2>
       <ul id="gameList">
-        <li data-game="games/homepage.html">🏠 Homepage</li>
         <li data-game="games/EaglyMC_WASM (1).html">Game 1</li>
         <li data-game="games/game2.html">Game 2</li>
         <li data-game="games/game3.html">Game 3</li>
@@ -76,6 +25,7 @@
       <iframe
         id="gameFrame"
         src=""
+        frameborder="0"
         allow="fullscreen; keyboard-lock; autoplay; gamepad; midi"
         sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-forms"
         tabindex="0"
@@ -83,48 +33,6 @@
     </main>
   </div>
 
-  <!-- Embedded Script -->
-  <script>
-    const gameList = document.getElementById('gameList');
-    const gameFrame = document.getElementById('gameFrame');
-    const fullscreenBtn = document.getElementById('fullscreenBtn');
-
-    function focusIframe() {
-      gameFrame.focus();
-    }
-
-    gameList.addEventListener('click', function (e) {
-      if (e.target && e.target.matches("li[data-game]")) {
-        const gameUrl = e.target.getAttribute('data-game');
-
-        // Load selected game or clear iframe for homepage
-        gameFrame.src = gameUrl || '';
-
-        // Focus iframe immediately on click
-        focusIframe();
-
-        // Refocus once game loads
-        gameFrame.addEventListener('load', () => {
-          focusIframe();
-        }, { once: true });
-      }
-    });
-
-    gameFrame.addEventListener('click', () => {
-      focusIframe();
-    });
-
-    fullscreenBtn.addEventListener('click', () => {
-      if (gameFrame.requestFullscreen) {
-        gameFrame.requestFullscreen();
-      } else if (gameFrame.webkitRequestFullscreen) {
-        gameFrame.webkitRequestFullscreen();
-      } else if (gameFrame.msRequestFullscreen) {
-        gameFrame.msRequestFullscreen();
-      }
-
-      focusIframe();
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
