@@ -7,6 +7,11 @@ gameList.addEventListener('click', function (e) {
   if (e.target && e.target.matches("li[data-game]")) {
     const gameUrl = e.target.getAttribute('data-game');
     gameFrame.src = gameUrl;
+
+    // Wait for iframe to load, then focus it
+    gameFrame.addEventListener('load', () => {
+      gameFrame.focus();
+    }, { once: true });
   }
 });
 
@@ -19,4 +24,7 @@ fullscreenBtn.addEventListener('click', () => {
   } else if (gameFrame.msRequestFullscreen) {
     gameFrame.msRequestFullscreen();
   }
+
+  // Focus iframe after fullscreen
+  gameFrame.focus();
 });
