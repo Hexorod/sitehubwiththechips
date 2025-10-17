@@ -31,7 +31,8 @@
     }
 
     /* Button styling */
-    button {
+    a.button {
+      display: inline-block;
       padding: 12px 24px;
       font-size: 1em;
       color: white;
@@ -39,10 +40,11 @@
       border: none;
       border-radius: 6px;
       cursor: pointer;
+      text-decoration: none;
       transition: background-color 0.3s ease;
     }
 
-    button:hover {
+    a.button:hover {
       background-color: #0056b3;
     }
   </style>
@@ -50,11 +52,14 @@
 <body>
   <h1>Welcome to Game Hub</h1>
   <p>
-    If the games are white, they are probably loading. shout out all my bros farthi.
-    click on the link if you dont know how to watch youtube
+    If the games are white, they are probably loading. Shout out all my bros farthi.
+    Click on the link if you don't know how to watch YouTube.
   </p>
-  <button onclick="window.open('https://docs.google.com/presentation/d/1WFhP8zS9BFr_ilAqHyJZig99uCtdkpQRI-srj_EdCDI/edit?usp=sharing', '_blank')">
-    tutorial to watch youtube
-  </button>
+
+  <!-- Button link to Google Slides -->
+  <a class="button" href="https://docs.google.com/presentation/d/1WFhP8zS9BFr_ilAqHyJZig99uCtdkpQRI-srj_EdCDI/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
+    Open YouTube Help Slides
+  </a>
+
 </body>
 </html>
