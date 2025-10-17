@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Embedded Google Slides</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+    iframe {
+      width: 100vw;
+      height: 100vh;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <iframe src="https://docs.google.com/presentation/d/1WFhP8zS9BFr_ilAqHyJZig99uCtdkpQRI-srj_EdCDI/preview?usp=sharing" allowfullscreen></iframe>
+</body>
+</html>
