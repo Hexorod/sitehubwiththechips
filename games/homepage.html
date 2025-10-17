@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>hi</title>
   <style>
     body {
@@ -27,13 +27,34 @@
       font-size: 1.1em;
       max-width: 400px;
       line-height: 1.4;
+      margin-bottom: 1.5em;
+    }
+
+    /* Button styling */
+    button {
+      padding: 12px 24px;
+      font-size: 1em;
+      color: white;
+      background-color: #007bff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
   <h1>Welcome to Game Hub</h1>
-  <p>If the games are white, they are probably loading. shout out all my bros farthi. click on the link if you dont know how to watch youtube</p>
-  <a href="https://docs.google.com/presentation/d/1WFhP8zS9BFr_ilAqHyJZig99uCtdkpQRI-srj_EdCDI/edit?usp=sharing">Watch youtube tutorial</a>
-  <a href="https://easyfun.gg">test</a>
+  <p>
+    If the games are white, they are probably loading. shout out all my bros farthi.
+    click on the link if you dont know how to watch youtube
+  </p>
+  <button onclick="window.open('https://docs.google.com/presentation/d/1WFhP8zS9BFr_ilAqHyJZig99uCtdkpQRI-srj_EdCDI/edit?usp=sharing', '_blank')">
+    tutorial to watch youtube
+  </button>
 </body>
 </html>
