@@ -1,24 +1,19 @@
 const gameList = document.getElementById('gameList');
 const gameFrame = document.getElementById('gameFrame');
 const fullscreenBtn = document.getElementById('fullscreenBtn');
-// At the top of script.js, after defining gameFrame
-const gameFrame = document.getElementById('gameFrame');
-
-// Load homepage on startup
-gameFrame.src = "games/homepage.html";
-
-// Optional: keep your existing click handlers for the game list
-const gameList = document.getElementById('gameList');
-gameList.querySelectorAll('li').forEach(item => {
-  item.addEventListener('click', () => {
-    const game = item.dataset.game;
-    gameFrame.src = game;
-  });
-});
-
 
 function focusIframe() {
   gameFrame.focus();
+}
+
+// Load homepage on page load and highlight it
+const homepageItem = gameList.querySelector('li[data-game="games/homepage.html"]');
+if (homepageItem) {
+  gameFrame.src = homepageItem.dataset.game;
+
+  // Highlight the homepage in the sidebar
+  gameList.querySelectorAll('li').forEach(li => li.classList.remove('active'));
+  homepageItem.classList.add('active');
 }
 
 // Load game and focus iframe on click
@@ -26,6 +21,10 @@ gameList.addEventListener('click', function (e) {
   if (e.target && e.target.matches("li[data-game]")) {
     const gameUrl = e.target.getAttribute('data-game');
     gameFrame.src = gameUrl;
+
+    // Highlight clicked item
+    gameList.querySelectorAll('li').forEach(li => li.classList.remove('active'));
+    e.target.classList.add('active');
 
     // Focus iframe immediately on user click (gesture)
     focusIframe();
