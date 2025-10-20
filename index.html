@@ -1,8 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>games</title>
-  <link rel="stylesheet" href="style.css" />
+  <title>Games</title>
+  <style>
+    /* Layout and styling */
+    body { margin: 0; font-family: Arial, sans-serif; height: 100vh; display: flex; }
+    .container { display: flex; flex: 1; }
+    .sidebar { width: 220px; background: #333; color: #fff; overflow-y: auto; padding: 10px; }
+    .sidebar h2 { margin-top: 0; }
+    .sidebar ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar li { padding: 5px 8px; cursor: pointer; }
+    .sidebar li.active { background: #555; }
+    .main-content { flex: 1; display: flex; flex-direction: column; }
+    .toolbar { padding: 5px; background: #222; color: #fff; }
+    iframe { flex: 1; border: none; width: 100%; }
+  </style>
 </head>
 <body>
   <div class="container">
@@ -12,12 +26,14 @@
         <li data-game="games/homepage.html">Homepage</li>
         <li data-game="games/EaglyMC_WASM (1).html">Minecraft</li>
         <li data-game="games/youtube.html">Youtube</li>
-        <li data-game="games/tiktok.html">Tiktok</li>
+        <li data-game="games/Tiktok.html">Tiktok</li>
         <li data-game="games/clcrossyroad.html">Crossy Road</li>
         <li data-game="games/gamesform.html">Games form & report</li>
         <li data-game="games/yttutorial.html">Youtube Tutorial</li>
+        <li data-game="games/basket-random/index.html">Basketball Random</li>
         <li data-game="games/clclusterrush.html">Cluster Rush</li>
         <li data-game="games/clrocketsoccerdurby.html">Rocket Soccer Durby (rocket league 3d)</li>
+        <li data-game="games/cookie-clicker/index.html">Cookie Clicker</li>
         <li data-game="games/bigshotboxing.html">Big Shot Boxing</li>
         <li data-game="games/clADOFAI.html">ADOFAI</li>
         <li data-game="games/clFNAF.html">FNAF</li>
@@ -42,23 +58,57 @@
         <li data-game="games/clrun2.html">Run 2</li>
         <li data-game="games/clrun3.html">Run 3</li>
         <li data-game="games/snowrider3d.html">Snow rider 3d</li>
-        <!-- Add more games here -->
       </ul>
     </aside>
     <main class="main-content">
       <div class="toolbar">
         <button id="fullscreenBtn">Fullscreen</button>
       </div>
-      <iframe
-        id="gameFrame"
-        src=""
-        frameborder="0"
-        allow="fullscreen; keyboard-lock; autoplay; gamepad; midi"
-        sandbox="allow-scripts allow-same-origin allow-pointer-lock allow-forms"
-        tabindex="0"
-        style="width:100%; height:100%; border:0; display:block;"
-      ></iframe>
+      <iframe id="gameFrame" src=""></iframe>
     </main>
   </div>
-  <script src="script.js"></script>
-  
+
+  <script>
+    const gameList = document.getElementById('gameList');
+    const gameFrame = document.getElementById('gameFrame');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+
+    function focusIframe() {
+      gameFrame.focus();
+    }
+
+    // Load homepage on startup
+    const homepageItem = gameList.querySelector('li[data-game="games/homepage.html"]');
+    if (homepageItem) {
+      gameFrame.src = homepageItem.dataset.game;
+      homepageItem.classList.add('active');
+    }
+
+    // Handle game clicks
+    gameList.addEventListener('click', function(e) {
+      const li = e.target.closest('li[data-game]');
+      if (!li) return;
+
+      gameList.querySelectorAll('li').forEach(item => item.classList.remove('active'));
+      li.classList.add('active');
+
+      gameFrame.src = li.dataset.game;
+
+      focusIframe();
+
+      gameFrame.addEventListener('load', () => focusIframe(), { once: true });
+    });
+
+    // Focus iframe on click
+    gameFrame.addEventListener('click', focusIframe);
+
+    // Fullscreen button
+    fullscreenBtn.addEventListener('click', () => {
+      if (gameFrame.requestFullscreen) gameFrame.requestFullscreen();
+      else if (gameFrame.webkitRequestFullscreen) gameFrame.webkitRequestFullscreen();
+      else if (gameFrame.msRequestFullscreen) gameFrame.msRequestFullscreen;
+      focusIframe();
+    });
+  </script>
+</body>
+</html>
