@@ -1,6 +1,21 @@
 const gameList = document.getElementById('gameList');
 const gameFrame = document.getElementById('gameFrame');
 const fullscreenBtn = document.getElementById('fullscreenBtn');
+// At the top of script.js, after defining gameFrame
+const gameFrame = document.getElementById('gameFrame');
+
+// Load homepage on startup
+gameFrame.src = "games/homepage.html";
+
+// Optional: keep your existing click handlers for the game list
+const gameList = document.getElementById('gameList');
+gameList.querySelectorAll('li').forEach(item => {
+  item.addEventListener('click', () => {
+    const game = item.dataset.game;
+    gameFrame.src = game;
+  });
+});
+
 
 function focusIframe() {
   gameFrame.focus();
