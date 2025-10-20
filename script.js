@@ -1,8 +1,6 @@
 const gameList = document.getElementById('gameList');
 const gameFrame = document.getElementById('gameFrame');
 const fullscreenBtn = document.getElementById('fullscreenBtn');
-// At the top of script.js, after defining gameFrame
-const gameFrame = document.getElementById('gameFrame');
 
 
 function focusIframe() {
