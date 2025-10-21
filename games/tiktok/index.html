@@ -17,33 +17,23 @@
     height: 100%;
   }
 </style>
-<script>
-  // Prevent direct access — only allow if inside an iframe
-  if (window.top === window.self) {
-    document.documentElement.innerHTML = "";
-    throw new Error("Direct access blocked");
-  }
-</script>
 </head>
 <body>
+
 <div id="content"></div>
 
 <script>
-  const url = 'https://www.tiktok.com';
+  // Automatically load TikTok through your proxy
+  const url = 'https://www.tiktok.com'; // raw URL, no encoding
   const container = document.getElementById('content');
 
-  // --- Automatically detect base path ---
-  const segments = location.pathname.split('/').filter(Boolean);
-  const base = segments.length ? `/${segments[0]}/` : '/';
-  const embedUrl = location.origin + base + 's/embed.html#' + encodeURIComponent(url);
-
-  // --- Create iframe ---
   const iframe = document.createElement('iframe');
-  iframe.src = embedUrl;
+  iframe.src = `sitehubwiththechips/s/embed.html#${url}`;
   iframe.style.width = '100%';
   iframe.style.height = '100%';
   iframe.style.border = 'none';
   container.appendChild(iframe);
 </script>
+
 </body>
 </html>
