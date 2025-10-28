@@ -8,16 +8,20 @@
     /* Layout and styling */
     body { margin: 0; font-family: Arial, sans-serif; height: 100vh; display: flex; }
     .container { display: flex; flex: 1; }
+    /* Added flex-direction column to sidebar for search bar */
     .sidebar { width: 220px; background: #333; color: #fff; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; }
     .sidebar h2 { margin-top: 0; }
+    /* Adjusted list styling to occupy remaining space and allow scrolling */
     .sidebar ul { list-style: none; padding: 0; margin: 0; flex-grow: 1; overflow-y: auto; }
     .sidebar li { padding: 5px 8px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sidebar li.active { background: #555; }
     .main-content { flex: 1; display: flex; flex-direction: column; }
     .toolbar { padding: 5px; background: #222; color: #fff; display: flex; justify-content: flex-end; }
     iframe { flex: 1; border: none; width: 100%; }
+    /* Style for the search bar */
     #searchBar { width: 100%; padding: 5px; margin-bottom: 10px; box-sizing: border-box; border: 1px solid #555; background: #444; color: #fff; }
-    #loading { color: #aaa; text-align: center; padding: 20px 0; font-size: 0.9em; }
+    /* Style for loading message */
+    #loading { color: #aaa; text-align: center; padding: 20px 0; font-size: 0.9em; display: none; }
   </style>
 </head>
 <body>
@@ -45,17 +49,16 @@
     const BASE_URL = `https://${GITHUB_OWNER}.github.io/${GITHUB_REPO}`;
 
     // --- Manually defined list for specific links or custom names ---
-    // These link URLs are relative to the BASE_URL and will be included alongside fetched games.
+    // The 'fileName' must match the exact file path in your GitHub repo root.
     const MANUAL_GAMES = [
-      // Format: { friendlyName: "Display Name", fileName: "The exact file path/name" }
-      { friendlyName: 'Homepage', fileName: 'index.html' },
+      { friendlyName: 'Homepage', fileName: 'index.html' }, 
       { friendlyName: 'Minecraft', fileName: 'EaglyMC_WASM (1).html' },
       { friendlyName: 'Youtube', fileName: 'youtube.html' },
       { friendlyName: 'Tiktok', fileName: 'cltiktok.html' },
       { friendlyName: 'Crossy Road', fileName: 'clcrossyroad.html' },
       { friendlyName: 'Games form & report', fileName: 'gamesform.html' },
       { friendlyName: 'Youtube Tutorial', fileName: 'yttutorial.html' },
-      { friendlyName: 'Basketball Random', fileName: 'basket-random/index.html' }, // Note: This assumes a nested folder!
+      { friendlyName: 'Basketball Random', fileName: 'basket-random/index.html' }, 
       { friendlyName: 'Cluster Rush', fileName: 'clclusterrush.html' },
       { friendlyName: 'Rocket Soccer Durby (rocket league 3d)', fileName: 'clrocketsoccerderby.html' },
       { friendlyName: 'Kour Io', fileName: 'clkourio.html' },
@@ -108,7 +111,7 @@
       { friendlyName: 'Race master 3d', fileName: 'clracemaster3d.html' },
       { friendlyName: 'Slow roads io', fileName: 'clslowroads.html' },
       { friendlyName: 'Vex 6', fileName: 'clvex6.html' },
-      { friendlyName: 'Vex x3m', fileName: 'clvexx3m.html' },
+      { friendlyName: 'Vex x3m', fileName: 'clvexx3m.html' }, 
       { friendlyName: 'Wheelie bike', fileName: 'clwheeliebike.html' }
     ];
 
@@ -121,18 +124,26 @@
     let allGames = []; // Stores the master list for searching
 
     function focusIframe() {
-      // Small delay to ensure the iframe is ready to be focused
       setTimeout(() => gameFrame.focus(), 50);
     }
 
     // --- Game List Initialization ---
     function initializeGameList() {
         // Map the manual list to include the full gameUrl
-        allGames = MANUAL_GAMES.map(game => ({
-            ...game,
-            // Construct the full URL using the BASE_URL and the file name/path
-            gameUrl: game.fileName === 'index.html' ? `${BASE_URL}/` : `${BASE_URL}/${game.fileName}`
-        }));
+        allGames = MANUAL_GAMES.map(game => {
+            let url;
+            if (game.fileName === 'index.html') {
+                // If the file is index.html, the URL is just the root of the site
+                url = `${BASE_URL}/`; 
+            } else {
+                // For all other files, join the BASE_URL and the file name/path
+                url = `${BASE_URL}/${game.fileName}`;
+            }
+            return {
+                ...game,
+                gameUrl: url
+            };
+        });
         
         // Render and load the default game (Homepage)
         renderGameList(allGames);
@@ -158,7 +169,7 @@
 
     // --- Load Default Game ---
     function loadDefaultGame(games) {
-        // Find the 'Homepage' entry (which is the first item in the manual list)
+        // Find the 'Homepage' entry
         const defaultGame = games.find(g => g.friendlyName === 'Homepage');
         
         if (defaultGame) {
