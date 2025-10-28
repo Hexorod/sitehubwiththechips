@@ -8,84 +8,26 @@
     /* Layout and styling */
     body { margin: 0; font-family: Arial, sans-serif; height: 100vh; display: flex; }
     .container { display: flex; flex: 1; }
-    .sidebar { width: 220px; background: #333; color: #fff; overflow-y: auto; padding: 10px; }
+    .sidebar { width: 220px; background: #333; color: #fff; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; }
     .sidebar h2 { margin-top: 0; }
-    .sidebar ul { list-style: none; padding: 0; margin: 0; }
-    .sidebar li { padding: 5px 8px; cursor: pointer; }
+    .sidebar ul { list-style: none; padding: 0; margin: 0; flex-grow: 1; overflow-y: auto; }
+    .sidebar li { padding: 5px 8px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .sidebar li.active { background: #555; }
     .main-content { flex: 1; display: flex; flex-direction: column; }
-    .toolbar { padding: 5px; background: #222; color: #fff; }
+    .toolbar { padding: 5px; background: #222; color: #fff; display: flex; justify-content: flex-end; }
     iframe { flex: 1; border: none; width: 100%; }
+    #searchBar { width: 100%; padding: 5px; margin-bottom: 10px; box-sizing: border-box; border: 1px solid #555; background: #444; color: #fff; }
+    #loading { color: #aaa; text-align: center; padding: 20px 0; font-size: 0.9em; }
   </style>
 </head>
 <body>
   <div class="container">
     <aside class="sidebar">
       <h2>Game List</h2>
+      <input type="text" id="searchBar" placeholder="Search games..." />
+      <div id="loading">Loading games...</div>
       <ul id="gameList">
-        <li data-game="games/homepage.html">Homepage</li>
-        <li data-game="games/EaglyMC_WASM (1).html">Minecraft</li>
-        <li data-game="games/youtube.html">Youtube</li>
-        <li data-game="games/cltiktok.html">Tiktok</li>
-        <li data-game="games/clcrossyroad.html">Crossy Road</li>
-        <li data-game="games/gamesform.html">Games form & report</li>
-        <li data-game="games/yttutorial.html">Youtube Tutorial</li>
-        <li data-game="games/basket-random/index.html">Basketball Random</li>
-        <li data-game="games/clclusterrush.html">Cluster Rush</li>
-        <li data-game="games/clrocketsoccerderby.html">Rocket Soccer Durby (rocket league 3d)</li>
-        <li data-game="games/clkourio.html">Kour Io</li>
-        <li data-game="games/clsubwaysurfersbeijing.html">Subway Surfers China</li>
-        <li data-game="games/clstealbrainrotonline.html">Steal A Brainrot Online</li>
-        <li data-game="games/clsupitdept.html">Steal a Brainrot Offline</li>
-        <li data-game="games/bigshotboxing.html">Big Shot Boxing</li>
-        <li data-game="games/clADOFAI.html">ADOFAI</li>
-        <li data-game="games/clFNAF.html">FNAF</li>
-        <li data-game="games/clFNAF2.html">FNAF 2</li>
-        <li data-game="games/clFNAF3.html">FNAF 3</li>
-        <li data-game="games/clFNAF4.html">FNAF 4</li>
-        <li data-game="games/wheelielife.html">Wheelie Life</li>
-        <li data-game="games/clbasketballstars.html">Basket Ball Stars</li>
-        <li data-game="games/clbasketrandoms.html">Basket Randoms</li>
-        <li data-game="games/clbballlegends.html">Basketball Legends</li>
-        <li data-game="games/clgdlite.html">Geomtry Dash Lite</li>
-        <li data-game="games/clhelixjump.html">helix jump</li>
-        <li data-game="games/clcookieclickercool.html">Cookie Clicker</li>
-        <li data-game="games/clcrazycattle3d.html">Crazy Cattle 3d</li>
-        <li data-game="games/clangrybirds.html">Angry Birds</li>
-        <li data-game="games/claquaparkio.html">Aqua Park IO</li>
-        <li data-game="games/clbadpiggies.html">Bad Piggies</li>
-        <li data-game="games/clfireboyandwatergirl.html">Fire boy and Water Girl</li>
-        <li data-game="games/test.html"> Test </li>
-        <li data-game="games/clfootballbros.html">Football Bros</li>
-        <li data-game="games/clfootballlegends.html">Football Legends</li>
-        <li data-game="games/clredball.html">Red ball</li>
-        <li data-game="games/clredball2.html">Red ball 2</li>
-        <li data-game="games/clredball3.html">Red ball 3</li>
-        <li data-game="games/clredball4.html">Red ball 4</li>
-        <li data-game="games/clredball4vol2.html">Red ball 4 Volume 2</li>
-        <li data-game="games/clredball4vol3.html">Red ball 4 Volume 3</li>
-        <li data-game="games/clretrobowl.html">Retro bowl</li>
-        <li data-game="games/coreball.html">Coreball</li>
-        <li data-game="games/clrocketleague.html">Rocket league 2d</li>
-        <li data-game="games/clrun.html">Run</li>
-        <li data-game="games/clrun2.html">Run 2</li>
-        <li data-game="games/clrun3.html">Run 3</li>
-        <li data-game="games/snowrider3d.html">Snow rider 3d</li>
-        <li data-game="games/cljellydrift.html">Jelly Drift</li>
-        <li data-game="games/clkarlson.html">Karlson</li>
-        <li data-game="games/clmotox3mm.html">Moto x3m</li>
-        <li data-game="games/clmxoffroadmaster.html">Mx Offroad Master</li>
-        <li data-game="games/clpaperio3d.html">Paper io 3d</li>
-        <li data-game="games/clpaperio.html">Paper io</li>
-        <li data-game="games/polytrackbutnotflagged.html">Poly track</li>
-        <li data-game="games/clragdollsoccer.html">Ragdoll Soccer</li>
-        <li data-game="games/clragdollhit.html">Ragdol Hit</li>
-        <li data-game="games/clracemaster3d.html">Race master 3d</li>
-        <li data-game="games/clslowroads.html">Slow roads io</li>
-        <li data-game="games/clvex6.html">Vex 6</li>
-        <li data-game="games/clvexx3m.html">Vex x3m</li>
-        <li data-game="games/clwheeliebike.html">Wheelie bike</li>
-      </ul>
+        </ul>
     </aside>
     <main class="main-content">
       <div class="toolbar">
@@ -96,46 +38,175 @@
   </div>
 
   <script>
+    // --- Configuration (YOUR REPO DETAILS) ---
+    const GITHUB_OWNER = 'Hexorod';
+    const GITHUB_REPO = 'adasdgtergscvbfr5etyrawdasdfegertawdA';
+    // Base URL points to the GitHub Pages site for embedding the games
+    const BASE_URL = `https://${GITHUB_OWNER}.github.io/${GITHUB_REPO}`;
+
+    // --- Manually defined list for specific links or custom names ---
+    // These link URLs are relative to the BASE_URL and will be included alongside fetched games.
+    const MANUAL_GAMES = [
+      // Format: { friendlyName: "Display Name", fileName: "The exact file path/name" }
+      { friendlyName: 'Homepage', fileName: 'index.html' },
+      { friendlyName: 'Minecraft', fileName: 'EaglyMC_WASM (1).html' },
+      { friendlyName: 'Youtube', fileName: 'youtube.html' },
+      { friendlyName: 'Tiktok', fileName: 'cltiktok.html' },
+      { friendlyName: 'Crossy Road', fileName: 'clcrossyroad.html' },
+      { friendlyName: 'Games form & report', fileName: 'gamesform.html' },
+      { friendlyName: 'Youtube Tutorial', fileName: 'yttutorial.html' },
+      { friendlyName: 'Basketball Random', fileName: 'basket-random/index.html' }, // Note: This assumes a nested folder!
+      { friendlyName: 'Cluster Rush', fileName: 'clclusterrush.html' },
+      { friendlyName: 'Rocket Soccer Durby (rocket league 3d)', fileName: 'clrocketsoccerderby.html' },
+      { friendlyName: 'Kour Io', fileName: 'clkourio.html' },
+      { friendlyName: 'Subway Surfers China', fileName: 'clsubwaysurfersbeijing.html' },
+      { friendlyName: 'Steal A Brainrot Online', fileName: 'clstealbrainrotonline.html' },
+      { friendlyName: 'Steal a Brainrot Offline', fileName: 'clsupitdept.html' },
+      { friendlyName: 'Big Shot Boxing', fileName: 'bigshotboxing.html' },
+      { friendlyName: 'ADOFAI', fileName: 'clADOFAI.html' },
+      { friendlyName: 'FNAF', fileName: 'clFNAF.html' },
+      { friendlyName: 'FNAF 2', fileName: 'clFNAF2.html' },
+      { friendlyName: 'FNAF 3', fileName: 'clFNAF3.html' },
+      { friendlyName: 'FNAF 4', fileName: 'clFNAF4.html' },
+      { friendlyName: 'Wheelie Life', fileName: 'wheelielife.html' },
+      { friendlyName: 'Basket Ball Stars', fileName: 'clbasketballstars.html' },
+      { friendlyName: 'Basket Randoms', fileName: 'clbasketrandoms.html' },
+      { friendlyName: 'Basketball Legends', fileName: 'clbballlegends.html' },
+      { friendlyName: 'Geomtry Dash Lite', fileName: 'clgdlite.html' },
+      { friendlyName: 'helix jump', fileName: 'clhelixjump.html' },
+      { friendlyName: 'Cookie Clicker', fileName: 'clcookieclickercool.html' },
+      { friendlyName: 'Crazy Cattle 3d', fileName: 'clcrazycattle3d.html' },
+      { friendlyName: 'Angry Birds', fileName: 'clangrybirds.html' },
+      { friendlyName: 'Aqua Park IO', fileName: 'claquaparkio.html' },
+      { friendlyName: 'Bad Piggies', fileName: 'clbadpiggies.html' },
+      { friendlyName: 'Fire boy and Water Girl', fileName: 'clfireboyandwatergirl.html' },
+      { friendlyName: 'Test', fileName: 'test.html' },
+      { friendlyName: 'Football Bros', fileName: 'clfootballbros.html' },
+      { friendlyName: 'Football Legends', fileName: 'clfootballlegends.html' },
+      { friendlyName: 'Red ball', fileName: 'clredball.html' },
+      { friendlyName: 'Red ball 2', fileName: 'clredball2.html' },
+      { friendlyName: 'Red ball 3', fileName: 'clredball3.html' },
+      { friendlyName: 'Red ball 4', fileName: 'clredball4.html' },
+      { friendlyName: 'Red ball 4 Volume 2', fileName: 'clredball4vol2.html' },
+      { friendlyName: 'Red ball 4 Volume 3', fileName: 'clredball4vol3.html' },
+      { friendlyName: 'Retro bowl', fileName: 'clretrobowl.html' },
+      { friendlyName: 'Coreball', fileName: 'coreball.html' },
+      { friendlyName: 'Rocket league 2d', fileName: 'clrocketleague.html' },
+      { friendlyName: 'Run', fileName: 'clrun.html' },
+      { friendlyName: 'Run 2', fileName: 'clrun2.html' },
+      { friendlyName: 'Run 3', fileName: 'clrun3.html' },
+      { friendlyName: 'Snow rider 3d', fileName: 'snowrider3d.html' },
+      { friendlyName: 'Jelly Drift', fileName: 'cljellydrift.html' },
+      { friendlyName: 'Karlson', fileName: 'clkarlson.html' },
+      { friendlyName: 'Moto x3m', fileName: 'clmotox3mm.html' },
+      { friendlyName: 'Mx Offroad Master', fileName: 'clmxoffroadmaster.html' },
+      { friendlyName: 'Paper io 3d', fileName: 'clpaperio3d.html' },
+      { friendlyName: 'Paper io', fileName: 'clpaperio.html' },
+      { friendlyName: 'Poly track', fileName: 'polytrackbutnotflagged.html' },
+      { friendlyName: 'Ragdoll Soccer', fileName: 'clragdollsoccer.html' },
+      { friendlyName: 'Ragdol Hit', fileName: 'clragdollhit.html' },
+      { friendlyName: 'Race master 3d', fileName: 'clracemaster3d.html' },
+      { friendlyName: 'Slow roads io', fileName: 'clslowroads.html' },
+      { friendlyName: 'Vex 6', fileName: 'clvex6.html' },
+      { friendlyName: 'Vex x3m', fileName: 'clvexx3m.html' },
+      { friendlyName: 'Wheelie bike', fileName: 'clwheeliebike.html' }
+    ];
+
+    // --- DOM Elements & Variables ---
     const gameList = document.getElementById('gameList');
     const gameFrame = document.getElementById('gameFrame');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const searchBar = document.getElementById('searchBar');
+    const loadingMessage = document.getElementById('loading');
+    let allGames = []; // Stores the master list for searching
 
     function focusIframe() {
-      gameFrame.focus();
+      // Small delay to ensure the iframe is ready to be focused
+      setTimeout(() => gameFrame.focus(), 50);
     }
 
-    // Load homepage on startup
-    const homepageItem = gameList.querySelector('li[data-game="games/homepage.html"]');
-    if (homepageItem) {
-      gameFrame.src = homepageItem.dataset.game;
-      homepageItem.classList.add('active');
+    // --- Game List Initialization ---
+    function initializeGameList() {
+        // Map the manual list to include the full gameUrl
+        allGames = MANUAL_GAMES.map(game => ({
+            ...game,
+            // Construct the full URL using the BASE_URL and the file name/path
+            gameUrl: game.fileName === 'index.html' ? `${BASE_URL}/` : `${BASE_URL}/${game.fileName}`
+        }));
+        
+        // Render and load the default game (Homepage)
+        renderGameList(allGames);
+        loadDefaultGame(allGames);
+        loadingMessage.style.display = 'none';
     }
 
-    // Handle game clicks
+    // --- Game List Rendering ---
+    function renderGameList(games) {
+      gameList.innerHTML = ''; // Clear existing list
+      if (games.length === 0) {
+        gameList.innerHTML = '<li>No games found matching your search.</li>';
+        return;
+      }
+
+      games.forEach(game => {
+        const li = document.createElement('li');
+        li.textContent = game.friendlyName;
+        li.dataset.gameUrl = game.gameUrl;
+        gameList.appendChild(li);
+      });
+    }
+
+    // --- Load Default Game ---
+    function loadDefaultGame(games) {
+        // Find the 'Homepage' entry (which is the first item in the manual list)
+        const defaultGame = games.find(g => g.friendlyName === 'Homepage');
+        
+        if (defaultGame) {
+            gameFrame.src = defaultGame.gameUrl;
+            // Set the active class on the corresponding list item
+            const defaultLi = gameList.querySelector(`li[data-game-url="${defaultGame.gameUrl}"]`);
+            if (defaultLi) {
+                defaultLi.classList.add('active');
+            }
+        }
+    }
+
+    // --- Search Functionality ---
+    searchBar.addEventListener('input', function() {
+      const searchTerm = searchBar.value.toLowerCase();
+      const filteredGames = allGames.filter(game => 
+        game.friendlyName.toLowerCase().includes(searchTerm)
+      );
+      renderGameList(filteredGames);
+    });
+
+    // --- Game Click Handler ---
     gameList.addEventListener('click', function(e) {
-      const li = e.target.closest('li[data-game]');
+      const li = e.target.closest('li[data-game-url]');
       if (!li) return;
 
+      // Update active state
       gameList.querySelectorAll('li').forEach(item => item.classList.remove('active'));
       li.classList.add('active');
 
-      gameFrame.src = li.dataset.game;
+      // Load game in iframe
+      gameFrame.src = li.dataset.gameUrl;
 
-      focusIframe();
-
+      // Focus on iframe after it loads
       gameFrame.addEventListener('load', () => focusIframe(), { once: true });
     });
 
-    // Focus iframe on click
+    // --- Fullscreen and Focus Handlers ---
     gameFrame.addEventListener('click', focusIframe);
-
-    // Fullscreen button
     fullscreenBtn.addEventListener('click', () => {
       if (gameFrame.requestFullscreen) gameFrame.requestFullscreen();
       else if (gameFrame.webkitRequestFullscreen) gameFrame.webkitRequestFullscreen();
-      else if (gameFrame.msRequestFullscreen) gameFrame.msRequestFullscreen;
+      else if (gameFrame.msRequestFullscreen) gameFrame.msRequestFullscreen();
       focusIframe();
     });
+    
+    // --- Initial Load ---
+    initializeGameList();
   </script>
 </body>
 </html>
