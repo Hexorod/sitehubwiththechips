@@ -45,19 +45,30 @@
     // --- Configuration (YOUR REPO DETAILS) ---
     const GITHUB_OWNER = 'Hexorod';
     const GITHUB_REPO = 'adasdgtergscvbfr5etyrawdasdfegertawdA';
-    // Base URL points to the GitHub Pages site for embedding the games
-    const BASE_URL = `https://${GITHUB_OWNER}.github.io/${GITHUB_REPO}`;
+    
+    // Base URL for the CURRENT REPO ROOT (where you moved most files)
+    const CURRENT_REPO_BASE_URL = `https://${GITHUB_OWNER}.github.io/${GITHUB_REPO}`;
+    
+    // Base URL for the ORIGINAL REPO /GAMES folder (fallback)
+    // NOTE: This assumes your "original repo" has the same name but files are in a 'games/' folder.
+    // If your original repo was named differently, you MUST update this URL.
+    const ORIGINAL_GAMES_FOLDER_URL = `${CURRENT_REPO_BASE_URL}/games`; 
+    
 
     // --- Manually defined list for specific links or custom names ---
-    // The 'fileName' must match the exact file path in your GitHub repo root.
+    // The 'fileName' must match the exact file path. The logic will generate a primary URL 
+    // (root) and a fallback URL (games/folder).
     const MANUAL_GAMES = [
-      { friendlyName: 'Homepage', fileName: 'homepage.html' }, 
+      // The original list has mixed paths (root vs. games/folder). 
+      // We rely on the 'fileName' to construct both a root and a games/ path.
+      { friendlyName: 'Homepage', fileName: 'index.html' }, 
       { friendlyName: 'Minecraft', fileName: 'EaglyMC_WASM (1).html' },
       { friendlyName: 'Youtube', fileName: 'youtube.html' },
       { friendlyName: 'Tiktok', fileName: 'cltiktok.html' },
       { friendlyName: 'Crossy Road', fileName: 'clcrossyroad.html' },
       { friendlyName: 'Games form & report', fileName: 'gamesform.html' },
       { friendlyName: 'Youtube Tutorial', fileName: 'yttutorial.html' },
+      // Path that includes a folder - will be handled correctly by the URL logic
       { friendlyName: 'Basketball Random', fileName: 'basket-random/index.html' }, 
       { friendlyName: 'Cluster Rush', fileName: 'clclusterrush.html' },
       { friendlyName: 'Rocket Soccer Durby (rocket league 3d)', fileName: 'clrocketsoccerderby.html' },
@@ -129,26 +140,32 @@
 
     // --- Game List Initialization ---
     function initializeGameList() {
-        // Map the manual list to include the full gameUrl
         allGames = MANUAL_GAMES.map(game => {
-            let url;
+            let primaryUrl, fallbackUrl;
+            
             if (game.fileName === 'index.html') {
-                // If the file is index.html, the URL is just the root of the site
-                url = `${BASE_URL}/`; 
+                // Homepage only uses the current repo root
+                primaryUrl = `${CURRENT_REPO_BASE_URL}/`; 
+                fallbackUrl = ''; // No fallback needed for index.html
             } else {
-                // For all other files, join the BASE_URL and the file name/path
-                url = `${BASE_URL}/${game.fileName}`;
+                // Primary URL: Tries the current repo root (where you moved the files)
+                primaryUrl = `${CURRENT_REPO_BASE_URL}/${game.fileName}`;
+                // Fallback URL: Tries the original games folder path
+                fallbackUrl = `${ORIGINAL_GAMES_FOLDER_URL}/${game.fileName}`;
             }
+
             return {
                 ...game,
-                gameUrl: url
+                // We use the primary URL to load, but store the fallback path
+                gameUrl: primaryUrl, 
+                fallbackUrl: fallbackUrl
             };
         });
         
-        // Render and load the default game (Homepage)
         renderGameList(allGames);
         loadDefaultGame(allGames);
-        loadingMessage.style.display = 'none';
+        // Note: Loading message is hidden in CSS, but this line is redundant if it was visible
+        loadingMessage.style.display = 'none'; 
     }
 
     // --- Game List Rendering ---
@@ -163,24 +180,69 @@
         const li = document.createElement('li');
         li.textContent = game.friendlyName;
         li.dataset.gameUrl = game.gameUrl;
+        // Store the fallback URL on the element for the click handler
+        li.dataset.fallbackUrl = game.fallbackUrl || '';
+        li.dataset.fileName = game.fileName; // Store file name for debugging
         gameList.appendChild(li);
       });
     }
 
     // --- Load Default Game ---
     function loadDefaultGame(games) {
-        // Find the 'Homepage' entry
         const defaultGame = games.find(g => g.friendlyName === 'Homepage');
         
         if (defaultGame) {
             gameFrame.src = defaultGame.gameUrl;
-            // Set the active class on the corresponding list item
             const defaultLi = gameList.querySelector(`li[data-game-url="${defaultGame.gameUrl}"]`);
             if (defaultLi) {
                 defaultLi.classList.add('active');
             }
         }
     }
+
+    // --- Game Click Handler with Fallback Logic ---
+    gameList.addEventListener('click', function(e) {
+      const li = e.target.closest('li[data-game-url]');
+      if (!li) return;
+
+      // Reset all active classes, set current one
+      gameList.querySelectorAll('li').forEach(item => item.classList.remove('active'));
+      li.classList.add('active');
+
+      const primaryUrl = li.dataset.gameUrl;
+      const fallbackUrl = li.dataset.fallbackUrl;
+
+      // Set up the load event listener BEFORE changing the src
+      const handleLoad = () => {
+          focusIframe();
+          // Remove the load listener after a successful load to prevent double-firing
+          gameFrame.removeEventListener('load', handleLoad); 
+          gameFrame.removeEventListener('error', handleError);
+      };
+      
+      // The error listener will be triggered if the browser completely fails to load the file
+      const handleError = () => {
+          console.log(`Failed to load primary URL: ${primaryUrl}. Trying fallback URL...`);
+          gameFrame.removeEventListener('error', handleError);
+
+          if (fallbackUrl) {
+              // Try the fallback URL
+              gameFrame.src = fallbackUrl;
+              // Add a new error listener just for the fallback attempt
+              gameFrame.addEventListener('error', () => {
+                  console.error(`Failed to load game from both primary and fallback URLs: ${fallbackUrl}`);
+              }, { once: true });
+          }
+      };
+
+      // Add listeners for the primary attempt
+      gameFrame.addEventListener('load', handleLoad, { once: true });
+      gameFrame.addEventListener('error', handleError, { once: true });
+
+      // Load game using the primary URL
+      gameFrame.src = primaryUrl;
+    });
+
 
     // --- Search Functionality ---
     searchBar.addEventListener('input', function() {
@@ -189,22 +251,6 @@
         game.friendlyName.toLowerCase().includes(searchTerm)
       );
       renderGameList(filteredGames);
-    });
-
-    // --- Game Click Handler ---
-    gameList.addEventListener('click', function(e) {
-      const li = e.target.closest('li[data-game-url]');
-      if (!li) return;
-
-      // Update active state
-      gameList.querySelectorAll('li').forEach(item => item.classList.remove('active'));
-      li.classList.add('active');
-
-      // Load game in iframe
-      gameFrame.src = li.dataset.gameUrl;
-
-      // Focus on iframe after it loads
-      gameFrame.addEventListener('load', () => focusIframe(), { once: true });
     });
 
     // --- Fullscreen and Focus Handlers ---
