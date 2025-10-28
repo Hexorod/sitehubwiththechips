@@ -38,21 +38,29 @@
   </div>
 
   <script>
-    // --- Configuration (YOUR REPO DETAILS) ---
+    // --- CONFIGURATION ---
     const GITHUB_OWNER = 'Hexorod';
     const GITHUB_REPO = 'adasdgtergscvbfr5etyrawdasdfegertawdA';
+    
+    // Base URL for GitHub Pages
     const BASE_URL = `https://${GITHUB_OWNER}.github.io/${GITHUB_REPO}`;
+    
+    // Path for the folder containing the manual games
+    const GAMES_FOLDER_PATH = 'games'; 
+    
+    // GitHub API URL to fetch contents of the *main* repo root folder
+    const API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/`;
 
-    // --- Manually defined list (Used for custom names, specific order, and the Homepage) ---
+    // --- Manually defined list (These files are in the 'games/' folder) ---
     const MANUAL_GAMES = [
-      { friendlyName: 'Homepage', fileName: 'games/homepage.html' },
+      { friendlyName: 'Homepage', fileName: 'homepage.html' },
       { friendlyName: 'Minecraft', fileName: 'EaglyMC_WASM (1).html' },
-      { friendlyName: 'Youtube', fileName: '/games/youtube.html' },
+      { friendlyName: 'Youtube', fileName: 'youtube.html' },
       { friendlyName: 'Tiktok', fileName: 'cltiktok.html' },
       { friendlyName: 'Crossy Road', fileName: 'clcrossyroad.html' },
       { friendlyName: 'Games form & report', fileName: 'gamesform.html' },
       { friendlyName: 'Youtube Tutorial', fileName: 'yttutorial.html' },
-      { friendlyName: 'Basketball Random', fileName: 'basket-random/index.html' }, 
+      { friendlyName: 'Basketball Random', fileName: 'basket-random/index.html' },
       { friendlyName: 'Cluster Rush', fileName: 'clclusterrush.html' },
       { friendlyName: 'Rocket Soccer Durby (rocket league 3d)', fileName: 'clrocketsoccerderby.html' },
       { friendlyName: 'Kour Io', fileName: 'clkourio.html' },
@@ -127,11 +135,11 @@
      * @returns {string} The cleaned, capitalized name (e.g., 'Drift Boss').
      */
     function getFriendlyName(fileName) {
-        // 1. Remove file extension (.html or .htm)
+        // 1. Remove file extension
         let name = fileName.replace(/\.(html|htm)$/i, '');
         
         // 2. Remove common prefixes (case-insensitive)
-        const prefixesToRemove = /^(cl|cl|cld|cldrift|clboss)/i;
+        const prefixesToRemove = /^(cl|cld|cldrift|clboss)/i;
         name = name.replace(prefixesToRemove, '');
 
         // 3. Insert a space before any capital letter that follows a lowercase letter (CamelCase fix)
@@ -143,14 +151,13 @@
         // 5. Capitalize the first letter of every word
         name = name.replace(/\b\w/g, l => l.toUpperCase());
 
-        // 6. Trim leading/trailing whitespace and reduce multiple spaces to a single space
+        // 6. Trim whitespace and reduce multiple spaces
         return name.trim().replace(/\s{2,}/g, ' ');
     }
 
     // --- Game List Fetching and Merging ---
     async function fetchAndMergeGameList() {
       loadingMessage.style.display = 'block';
-      const API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/`;
       const manualFileNames = MANUAL_GAMES.map(g => g.fileName);
       
       let fetchedGames = [];
@@ -162,20 +169,21 @@
         }
         const data = await response.json();
 
-        // 1. Filter and process fetched files
+        // 1. Filter and process fetched files (from the main repo root)
         fetchedGames = data
           .filter(item => 
             item.type === 'file' && 
             (item.name.toLowerCase().endsWith('.html') || item.name.toLowerCase().endsWith('.htm')) &&
-            !manualFileNames.includes(item.name) && // Exclude files already in the manual list
-            item.name.toLowerCase() !== 'index.html' // Exclude index.html itself
+            !manualFileNames.includes(item.name) && // Exclude files we already defined manually
+            item.name.toLowerCase() !== 'index.html' 
           )
           .map(item => {
             const fileName = item.name;
             return {
               fileName: fileName,
               friendlyName: getFriendlyName(fileName),
-              gameUrl: `${BASE_URL}/${fileName}`
+              // Use BASE_URL for files fetched from the root of this repo
+              gameUrl: `${BASE_URL}/${fileName}` 
             };
           });
 
@@ -183,9 +191,13 @@
         console.warn('Could not fetch new games via GitHub API. Using manual list only.', error);
       }
 
-      // 2. Process Manual Games
+      // 2. Process Manual Games (These files use the specific GAMES_FOLDER_PATH)
       const processedManualGames = MANUAL_GAMES.map(game => {
-          let url = `${BASE_URL}/${game.fileName}`;
+          // Construct URL using BASE_URL + GAMES_FOLDER_PATH + fileName
+          let url = `${BASE_URL}/${GAMES_FOLDER_PATH}/${game.fileName}`;
+          // Handle cases where a manual entry might have a subdirectory itself (like 'basket-random/index.html')
+          url = url.replace(`/${GAMES_FOLDER_PATH}/${GAMES_FOLDER_PATH}/`, `/${GAMES_FOLDER_PATH}/`);
+
           return {
               ...game,
               gameUrl: url
@@ -200,7 +212,7 @@
       loadingMessage.style.display = 'none';
     }
 
-    // --- Game List Rendering ---
+    // --- Game List Rendering, Default Load, Search, and Handlers (No change needed here) ---
     function renderGameList(games) {
       gameList.innerHTML = '';
       if (games.length === 0) {
@@ -216,7 +228,6 @@
       });
     }
 
-    // --- Load Default Game ---
     function loadDefaultGame(games) {
         const defaultGame = games.find(g => g.friendlyName === 'Homepage');
         
@@ -229,7 +240,6 @@
         }
     }
 
-    // --- Search Functionality ---
     searchBar.addEventListener('input', function() {
       const searchTerm = searchBar.value.toLowerCase();
       const filteredGames = allGames.filter(game => 
@@ -238,7 +248,6 @@
       renderGameList(filteredGames);
     });
 
-    // --- Game Click Handler ---
     gameList.addEventListener('click', function(e) {
       const li = e.target.closest('li[data-game-url]');
       if (!li) return;
@@ -251,7 +260,6 @@
       gameFrame.addEventListener('load', () => focusIframe(), { once: true });
     });
 
-    // --- Fullscreen and Focus Handlers ---
     gameFrame.addEventListener('click', focusIframe);
     fullscreenBtn.addEventListener('click', () => {
       if (gameFrame.requestFullscreen) gameFrame.requestFullscreen();
