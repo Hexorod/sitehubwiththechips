@@ -8,26 +8,153 @@
     /* Layout and styling */
     body { margin: 0; font-family: Arial, sans-serif; height: 100vh; display: flex; }
     .container { display: flex; flex: 1; }
-    .sidebar { width: 220px; background: #333; color: #fff; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; }
+    .sidebar { width: 220px; background: #333; color: #fff; overflow-y: auto; padding: 10px; }
     .sidebar h2 { margin-top: 0; }
-    .sidebar ul { list-style: none; padding: 0; margin: 0; flex-grow: 1; overflow-y: auto; }
-    .sidebar li { padding: 5px 8px; cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sidebar ul { list-style: none; padding: 0; margin: 0; }
+    .sidebar li { 
+      padding: 5px 8px; 
+      cursor: pointer; 
+      margin-bottom: 2px;
+      border-radius: 3px;
+    }
+    .sidebar li:hover { background: #444; }
     .sidebar li.active { background: #555; }
     .main-content { flex: 1; display: flex; flex-direction: column; }
-    .toolbar { padding: 5px; background: #222; color: #fff; display: flex; justify-content: flex-end; }
+    .toolbar { padding: 5px; background: #222; color: #fff; text-align: right; }
     iframe { flex: 1; border: none; width: 100%; }
-    #searchBar { width: 100%; padding: 5px; margin-bottom: 10px; box-sizing: border-box; border: 1px solid #555; background: #444; color: #fff; }
-    #loading { color: #aaa; text-align: center; padding: 20px 0; font-size: 0.9em; }
+    
+    /* Styles for fetched games (now just text cards) */
+    .game-card {
+      background: #444;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      padding: 8px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+      cursor: pointer;
+      display: flex; /* Use flex for title and button alignment */
+      justify-content: space-between;
+      align-items: center;
+    }
+    .game-card:hover { background: #555; }
+    .game-card.active { background: #555; }
+    
+    .game-title { 
+      font-size: 14px; 
+      font-weight: bold; 
+      flex-grow: 1;
+      text-align: left;
+    }
+    .button-row { 
+      margin-left: 10px;
+    }
+    .button-row button {
+      background: #007bff;
+      border: none;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: white;
+      cursor: pointer;
+      font-size: 10px;
+      /* Only 'Play' button remains */
+    }
+    .button-row button:hover { background: #0056b3; }
+    
+    #dynamicGamesContainer { 
+      margin-top: 20px; 
+      border-top: 1px solid #555;
+      padding-top: 10px;
+    }
+    
+    /* Global Search Bar Style */
+    #globalSearch {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 15px;
+      border: none;
+      border-radius: 4px;
+      background: #555;
+      color: white;
+      box-sizing: border-box;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <aside class="sidebar">
       <h2>Game List</h2>
-      <input type="text" id="searchBar" placeholder="Search games..." />
-      <div id="loading">Loading games...</div>
+      
+      <input type="text" id="globalSearch" placeholder="Search all games..." />
+      
       <ul id="gameList">
-        </ul>
+        <li data-game="games/homepage.html">Homepage</li>
+        <li data-game="games/EaglyMC_WASM (1).html">Minecraft</li>
+        <li data-game="games/youtube.html">Youtube</li>
+        <li data-game="games/cltiktok.html">Tiktok</li>
+        <li data-game="games/clcrossyroad.html">Crossy Road</li>
+        <li data-game="games/gamesform.html">Games form & report</li>
+        <li data-game="games/yttutorial.html">Youtube Tutorial</li>
+        <li data-game="games/basket-random/index.html">Basketball Random</li>
+        <li data-game="games/clclusterrush.html">Cluster Rush</li>
+        <li data-game="games/clrocketsoccerderby.html">Rocket Soccer Durby (rocket league 3d)</li>
+        <li data-game="games/clkourio.html">Kour Io</li>
+        <li data-game="games/clsubwaysurfersbeijing.html">Subway Surfers China</li>
+        <li data-game="games/clstealbrainrotonline.html">Steal A Brainrot Online</li>
+        <li data-game="games/clsupitdept.html">Steal a Brainrot Offline</li>
+        <li data-game="games/bigshotboxing.html">Big Shot Boxing</li>
+        <li data-game="games/clADOFAI.html">ADOFAI</li>
+        <li data-game="games/clFNAF.html">FNAF</li>
+        <li data-game="games/clFNAF2.html">FNAF 2</li>
+        <li data-game="games/clFNAF3.html">FNAF 3</li>
+        <li data-game="games/clFNAF4.html">FNAF 4</li>
+        <li data-game="games/wheelielife.html">Wheelie Life</li>
+        <li data-game="games/clbasketballstars.html">Basket Ball Stars</li>
+        <li data-game="games/clbasketrandoms.html">Basket Randoms</li>
+        <li data-game="games/clbballlegends.html">Basketball Legends</li>
+        <li data-game="games/clgdlite.html">Geomtry Dash Lite</li>
+        <li data-game="games/clhelixjump.html">helix jump</li>
+        <li data-game="games/clcookieclickercool.html">Cookie Clicker</li>
+        <li data-game="games/clcrazycattle3d.html">Crazy Cattle 3d</li>
+        <li data-game="games/clangrybirds.html">Angry Birds</li>
+        <li data-game="games/claquaparkio.html">Aqua Park IO</li>
+        <li data-game="games/clbadpiggies.html">Bad Piggies</li>
+        <li data-game="games/clfireboyandwatergirl.html">Fire boy and Water Girl</li>
+        <li data-game="games/test.html"> Test </li>
+        <li data-game="games/clfootballbros.html">Football Bros</li>
+        <li data-game="games/clfootballlegends.html">Football Legends</li>
+        <li data-game="games/clredball.html">Red ball</li>
+        <li data-game="games/clredball2.html">Red ball 2</li>
+        <li data-game="games/clredball3.html">Red ball 3</li>
+        <li data-game="games/clredball4.html">Red ball 4</li>
+        <li data-game="games/clredball4vol2.html">Red ball 4 Volume 2</li>
+        <li data-game="games/clredball4vol3.html">Red ball 4 Volume 3</li>
+        <li data-game="games/clretrobowl.html">Retro bowl</li>
+        <li data-game="games/coreball.html">Coreball</li>
+        <li data-game="games/clrocketleague.html">Rocket league 2d</li>
+        <li data-game="games/clrun.html">Run</li>
+        <li data-game="games/clrun2.html">Run 2</li>
+        <li data-game="games/clrun3.html">Run 3</li>
+        <li data-game="games/snowrider3d.html">Snow rider 3d</li>
+        <li data-game="games/cljellydrift.html">Jelly Drift</li>
+        <li data-game="games/clkarlson.html">Karlson</li>
+        <li data-game="games/clmotox3mm.html">Moto x3m</li>
+        <li data-game="games/clmxoffroadmaster.html">Mx Offroad Master</li>
+        <li data-game="games/clpaperio3d.html">Paper io 3d</li>
+        <li data-game="games/clpaperio.html">Paper io</li>
+        <li data-game="games/polytrackbutnotflagged.html">Poly track</li>
+        <li data-game="games/clragdollsoccer.html">Ragdoll Soccer</li>
+        <li data-game="games/clragdollhit.html">Ragdol Hit</li>
+        <li data-game="games/clracemaster3d.html">Race master 3d</li>
+        <li data-game="games/clslowroads.html">Slow roads io</li>
+        <li data-game="games/clvex6.html">Vex 6</li>
+        <li data-game="games/clvexx3m.html">Vex x3m</li>
+        <li data-game="games/clwheeliebike.html">Wheelie bike</li>
+      </ul>
+
+      <div id="dynamicGamesContainer">
+        <h3>Fetched Games</h3>
+        <div id="gamesContainer">Loading games...</div>
+      </div>
+      
     </aside>
     <main class="main-content">
       <div class="toolbar">
@@ -38,238 +165,137 @@
   </div>
 
   <script>
-    // --- CONFIGURATION ---
-    const GITHUB_OWNER = 'Hexorod';
-    const GITHUB_REPO = 'adasdgtergscvbfr5etyrawdasdfegertawdA';
-    
-    // Base URL for GitHub Pages
-    const BASE_URL = `https://${GITHUB_OWNER}.github.io/${GITHUB_REPO}`;
-    
-    // Path for the folder containing the manual games
-    const GAMES_FOLDER_PATH = 'games'; 
-    
-    // GitHub API URL to fetch contents of the *main* repo root folder
-    const API_URL = `https://api.github.com/repos/${GITHUB_OWNER}/${GITHUB_REPO}/contents/`;
-
-    // --- Manually defined list (These files are in the 'games/' folder) ---
-    const MANUAL_GAMES = [
-      { friendlyName: 'Homepage', fileName: 'homepage.html' },
-      { friendlyName: 'Minecraft', fileName: 'EaglyMC_WASM (1).html' },
-      { friendlyName: 'Youtube', fileName: 'youtube.html' },
-      { friendlyName: 'Tiktok', fileName: 'cltiktok.html' },
-      { friendlyName: 'Crossy Road', fileName: 'clcrossyroad.html' },
-      { friendlyName: 'Games form & report', fileName: 'gamesform.html' },
-      { friendlyName: 'Youtube Tutorial', fileName: 'yttutorial.html' },
-      { friendlyName: 'Basketball Random', fileName: 'basket-random/index.html' },
-      { friendlyName: 'Cluster Rush', fileName: 'clclusterrush.html' },
-      { friendlyName: 'Rocket Soccer Durby (rocket league 3d)', fileName: 'clrocketsoccerderby.html' },
-      { friendlyName: 'Kour Io', fileName: 'clkourio.html' },
-      { friendlyName: 'Subway Surfers China', fileName: 'clsubwaysurfersbeijing.html' },
-      { friendlyName: 'Steal A Brainrot Online', fileName: 'clstealbrainrotonline.html' },
-      { friendlyName: 'Steal a Brainrot Offline', fileName: 'clsupitdept.html' },
-      { friendlyName: 'Big Shot Boxing', fileName: 'bigshotboxing.html' },
-      { friendlyName: 'ADOFAI', fileName: 'clADOFAI.html' },
-      { friendlyName: 'FNAF', fileName: 'clFNAF.html' },
-      { friendlyName: 'FNAF 2', fileName: 'clFNAF2.html' },
-      { friendlyName: 'FNAF 3', fileName: 'clFNAF3.html' },
-      { friendlyName: 'FNAF 4', fileName: 'clFNAF4.html' },
-      { friendlyName: 'Wheelie Life', fileName: 'wheelielife.html' },
-      { friendlyName: 'Basket Ball Stars', fileName: 'clbasketballstars.html' },
-      { friendlyName: 'Basket Randoms', fileName: 'clbasketrandoms.html' },
-      { friendlyName: 'Basketball Legends', fileName: 'clbballlegends.html' },
-      { friendlyName: 'Geomtry Dash Lite', fileName: 'clgdlite.html' },
-      { friendlyName: 'helix jump', fileName: 'clhelixjump.html' },
-      { friendlyName: 'Cookie Clicker', fileName: 'clcookieclickercool.html' },
-      { friendlyName: 'Crazy Cattle 3d', fileName: 'clcrazycattle3d.html' },
-      { friendlyName: 'Angry Birds', fileName: 'clangrybirds.html' },
-      { friendlyName: 'Aqua Park IO', fileName: 'claquaparkio.html' },
-      { friendlyName: 'Bad Piggies', fileName: 'clbadpiggies.html' },
-      { friendlyName: 'Fire boy and Water Girl', fileName: 'clfireboyandwatergirl.html' },
-      { friendlyName: 'Test', fileName: 'test.html' },
-      { friendlyName: 'Football Bros', fileName: 'clfootballbros.html' },
-      { friendlyName: 'Football Legends', fileName: 'clfootballlegends.html' },
-      { friendlyName: 'Red ball', fileName: 'clredball.html' },
-      { friendlyName: 'Red ball 2', fileName: 'clredball2.html' },
-      { friendlyName: 'Red ball 3', fileName: 'clredball3.html' },
-      { friendlyName: 'Red ball 4', fileName: 'clredball4.html' },
-      { friendlyName: 'Red ball 4 Volume 2', fileName: 'clredball4vol2.html' },
-      { friendlyName: 'Red ball 4 Volume 3', fileName: 'clredball4vol3.html' },
-      { friendlyName: 'Retro bowl', fileName: 'clretrobowl.html' },
-      { friendlyName: 'Coreball', fileName: 'coreball.html' },
-      { friendlyName: 'Rocket league 2d', fileName: 'clrocketleague.html' },
-      { friendlyName: 'Run', fileName: 'clrun.html' },
-      { friendlyName: 'Run 2', fileName: 'clrun2.html' },
-      { friendlyName: 'Run 3', fileName: 'clrun3.html' },
-      { friendlyName: 'Snow rider 3d', fileName: 'snowrider3d.html' },
-      { friendlyName: 'Jelly Drift', fileName: 'cljellydrift.html' },
-      { friendlyName: 'Karlson', fileName: 'clkarlson.html' },
-      { friendlyName: 'Moto x3m', fileName: 'clmotox3mm.html' },
-      { friendlyName: 'Mx Offroad Master', fileName: 'clmxoffroadmaster.html' },
-      { friendlyName: 'Paper io 3d', fileName: 'clpaperio3d.html' },
-      { friendlyName: 'Paper io', fileName: 'clpaperio.html' },
-      { friendlyName: 'Poly track', fileName: 'polytrackbutnotflagged.html' },
-      { friendlyName: 'Ragdoll Soccer', fileName: 'clragdollsoccer.html' },
-      { friendlyName: 'Ragdol Hit', fileName: 'clragdollhit.html' },
-      { friendlyName: 'Race master 3d', fileName: 'clracemaster3d.html' },
-      { friendlyName: 'Slow roads io', fileName: 'clslowroads.html' },
-      { friendlyName: 'Vex 6', fileName: 'clvex6.html' },
-      { friendlyName: 'Vex x3m', fileName: 'clvexx3m.html' },
-      { friendlyName: 'Wheelie bike', fileName: 'clwheeliebike.html' }
-    ];
-
-    // --- DOM Elements & Variables ---
     const gameList = document.getElementById('gameList');
     const gameFrame = document.getElementById('gameFrame');
     const fullscreenBtn = document.getElementById('fullscreenBtn');
-    const searchBar = document.getElementById('searchBar');
-    const loadingMessage = document.getElementById('loading');
-    let allGames = [];
+    const globalSearch = document.getElementById('globalSearch');
 
     function focusIframe() {
-      setTimeout(() => gameFrame.focus(), 50);
+      gameFrame.focus();
     }
 
-    /**
-     * Creates a user-friendly name from a GitHub filename, cleaning up prefixes and adding spaces.
-     * @param {string} fileName The file name (e.g., 'cldriftboss.html').
-     * @returns {string} The cleaned, capitalized name (e.g., 'Drift Boss').
-     */
-    function getFriendlyName(fileName) {
-        // 1. Remove file extension
-        let name = fileName.replace(/\.(html|htm)$/i, '');
-        
-        // 2. Remove common prefixes (case-insensitive)
-        const prefixesToRemove = /^(cl|cld|cldrift|clboss)/i;
-        name = name.replace(prefixesToRemove, '');
-
-        // 3. Insert a space before any capital letter that follows a lowercase letter (CamelCase fix)
-        name = name.replace(/([a-z])([A-Z])/g, '$1 $2');
-        
-        // 4. Replace hyphens (-) and underscores (_) with spaces
-        name = name.replace(/[-_]/g, ' ');
-        
-        // 5. Capitalize the first letter of every word
-        name = name.replace(/\b\w/g, l => l.toUpperCase());
-
-        // 6. Trim whitespace and reduce multiple spaces
-        return name.trim().replace(/\s{2,}/g, ' ');
+    // Load homepage on startup
+    const homepageItem = gameList.querySelector('li[data-game="games/homepage.html"]');
+    if (homepageItem) {
+      gameFrame.src = homepageItem.dataset.game;
+      homepageItem.classList.add('active');
     }
 
-    // --- Game List Fetching and Merging ---
-    async function fetchAndMergeGameList() {
-      loadingMessage.style.display = 'block';
-      const manualFileNames = MANUAL_GAMES.map(g => g.fileName);
-      
-      let fetchedGames = [];
-
-      try {
-        const response = await fetch(API_URL);
-        if (!response.ok) {
-          throw new Error(`GitHub API error: ${response.statusText}`);
-        }
-        const data = await response.json();
-
-        // 1. Filter and process fetched files (from the main repo root)
-        fetchedGames = data
-          .filter(item => 
-            item.type === 'file' && 
-            (item.name.toLowerCase().endsWith('.html') || item.name.toLowerCase().endsWith('.htm')) &&
-            !manualFileNames.includes(item.name) && // Exclude files we already defined manually
-            item.name.toLowerCase() !== 'index.html' 
-          )
-          .map(item => {
-            const fileName = item.name;
-            return {
-              fileName: fileName,
-              friendlyName: getFriendlyName(fileName),
-              // Use BASE_URL for files fetched from the root of this repo
-              gameUrl: `${BASE_URL}/${fileName}` 
-            };
-          });
-
-      } catch (error) {
-        console.warn('Could not fetch new games via GitHub API. Using manual list only.', error);
-      }
-
-      // 2. Process Manual Games (These files use the specific GAMES_FOLDER_PATH)
-      const processedManualGames = MANUAL_GAMES.map(game => {
-          // Construct URL using BASE_URL + GAMES_FOLDER_PATH + fileName
-          let url = `${BASE_URL}/${GAMES_FOLDER_PATH}/${game.fileName}`;
-          // Handle cases where a manual entry might have a subdirectory itself (like 'basket-random/index.html')
-          url = url.replace(`/${GAMES_FOLDER_PATH}/${GAMES_FOLDER_PATH}/`, `/${GAMES_FOLDER_PATH}/`);
-
-          return {
-              ...game,
-              gameUrl: url
-          };
-      });
-
-      // 3. Combine the lists (Manual list first for priority/order)
-      allGames = processedManualGames.concat(fetchedGames);
-
-      renderGameList(allGames);
-      loadDefaultGame(allGames);
-      loadingMessage.style.display = 'none';
+    function deselectAllGames() {
+        document.querySelectorAll('#gameList li.active, .game-card.active').forEach(item => item.classList.remove('active'));
     }
 
-    // --- Game List Rendering, Default Load, Search, and Handlers (No change needed here) ---
-    function renderGameList(games) {
-      gameList.innerHTML = '';
-      if (games.length === 0) {
-        gameList.innerHTML = '<li>No games found.</li>';
-        return;
-      }
-
-      games.forEach(game => {
-        const li = document.createElement('li');
-        li.textContent = game.friendlyName;
-        li.dataset.gameUrl = game.gameUrl;
-        gameList.appendChild(li);
-      });
-    }
-
-    function loadDefaultGame(games) {
-        const defaultGame = games.find(g => g.friendlyName === 'Homepage');
-        
-        if (defaultGame) {
-            gameFrame.src = defaultGame.gameUrl;
-            const defaultLi = gameList.querySelector(`li[data-game-url="${defaultGame.gameUrl}"]`);
-            if (defaultLi) {
-                defaultLi.classList.add('active');
-            }
-        }
-    }
-
-    searchBar.addEventListener('input', function() {
-      const searchTerm = searchBar.value.toLowerCase();
-      const filteredGames = allGames.filter(game => 
-        game.friendlyName.toLowerCase().includes(searchTerm)
-      );
-      renderGameList(filteredGames);
-    });
-
+    // Handle game clicks for MANUALLY listed games
     gameList.addEventListener('click', function(e) {
-      const li = e.target.closest('li[data-game-url]');
+      const li = e.target.closest('li[data-game]');
       if (!li) return;
 
-      gameList.querySelectorAll('li').forEach(item => item.classList.remove('active'));
+      deselectAllGames();
       li.classList.add('active');
 
-      gameFrame.src = li.dataset.gameUrl;
+      gameFrame.src = li.dataset.game;
 
+      focusIframe();
       gameFrame.addEventListener('load', () => focusIframe(), { once: true });
     });
 
+    // Focus iframe on click
     gameFrame.addEventListener('click', focusIframe);
+
+    // Fullscreen button
     fullscreenBtn.addEventListener('click', () => {
       if (gameFrame.requestFullscreen) gameFrame.requestFullscreen();
       else if (gameFrame.webkitRequestFullscreen) gameFrame.webkitRequestFullscreen();
-      else if (gameFrame.msRequestFullscreen) gameFrame.msRequestFullscreen();
+      else if (gameFrame.msRequestFullscreen) gameFrame.msRequestFullscreen;
       focusIframe();
     });
-    
-    // --- Initial Load ---
-    fetchAndMergeGameList();
+
+    // --- Dynamic Game Fetching Logic ---
+    const gamesContainer = document.getElementById('gamesContainer');
+    let dynamicGameCards = []; // Store a reference to dynamic cards for searching
+
+    async function fetchGames() {
+      try {
+        const res = await fetch('https://api.github.com/repos/Hexorod/adasdgtergscvbfr5etyrawdasdfegertawdA/contents/');
+        const data = await res.json();
+        const htmlFiles = Array.isArray(data) ? data.filter(f => f.name.endsWith('.html')) : [];
+
+        if (htmlFiles.length === 0) {
+          gamesContainer.innerHTML = '<p>No fetched games found.</p>';
+          return;
+        }
+
+        function formatName(file) {
+          let name = file.replace('.html', '');
+          name = name.replace(/^cl/, '');
+          name = name.replace(/[-_]/g, ' ');
+          name = name.replace(/([a-z])([A-Z])/g, '$1 $2');
+          name = name.trim();
+          return name.charAt(0).toUpperCase() + name.slice(1);
+        }
+
+        gamesContainer.innerHTML = htmlFiles.map(f => `
+          <div class="game-card" data-file="${f.name}" data-name="${formatName(f.name)}">
+            <div class="game-title">${formatName(f.name)}</div>
+            <div class="button-row">
+              <button class="play-btn">Play</button>
+            </div>
+          </div>
+        `).join('');
+
+        dynamicGameCards = document.querySelectorAll('.game-card');
+
+        dynamicGameCards.forEach(card => {
+          const file = card.getAttribute('data-file');
+          const gameURL = 'https://hexorod.github.io/adasdgtergscvbfr5etyrawdasdfegertawdA/' + file;
+          
+          // Handle 'Play' button click for dynamic games
+          card.querySelector('.play-btn').addEventListener('click', (e) => {
+            e.stopPropagation(); // Prevent card from also firing click event
+            
+            deselectAllGames();
+            card.classList.add('active');
+
+            gameFrame.src = gameURL;
+            focusIframe();
+            gameFrame.addEventListener('load', () => focusIframe(), { once: true });
+          });
+          
+          // Handle clicking the card itself to play
+          card.addEventListener('click', (e) => {
+            deselectAllGames();
+            card.classList.add('active');
+            
+            gameFrame.src = gameURL;
+            focusIframe();
+            gameFrame.addEventListener('load', () => focusIframe(), { once: true });
+          });
+        });
+      } catch (err) {
+        gamesContainer.innerHTML = '<p>Failed to load fetched games.</p>';
+        console.error("Error fetching dynamic games:", err);
+      }
+    }
+    fetchGames();
+    // --- End Dynamic Game Fetching Logic ---
+
+    // --- Global Search Functionality ---
+    globalSearch.addEventListener('input', () => {
+        const q = globalSearch.value.toLowerCase();
+        
+        // 1. Filter Manually Listed Games
+        const manualItems = gameList.querySelectorAll('li');
+        manualItems.forEach(item => {
+            const name = item.textContent.toLowerCase();
+            item.style.display = name.includes(q) ? 'block' : 'none';
+        });
+
+        // 2. Filter Dynamically Fetched Games
+        dynamicGameCards.forEach(card => {
+            const name = card.getAttribute('data-name').toLowerCase();
+            card.style.display = name.includes(q) ? 'flex' : 'none';
+        });
+    });
   </script>
 </body>
 </html>
